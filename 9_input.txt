@@ -1,0 +1,72 @@
+Class: stream.Readable#
+Added in: v0.9.4
+Event: 'close'#
+
+Added in: v0.9.4
+The 'close' event is emitted when the stream and any of its underlying resources (a file descriptor, for example) have been closed. The event indicates that no more events will be emitted, and no further computation will occur.
+
+Not all Readable streams will emit the 'close' event.
+
+Event: 'data'#
+
+Added in: v0.9.4
+chunk <Buffer> | <string> | <any> The chunk of data. For streams that are not operating in object mode, the chunk will be either a string or Buffer. For streams that are in object mode, the chunk can be any JavaScript value other than null.
+The 'data' event is emitted whenever the stream is relinquishing ownership of a chunk of data to a consumer. This may occur whenever the stream is switched in flowing mode by calling readable.pipe(), readable.resume(), or by attaching a listener callback to the 'data' event. The 'data' event will also be emitted whenever the readable.read() method is called and a chunk of data is available to be returned.
+
+Attaching a 'data' event listener to a stream that has not been explicitly paused will switch the stream into flowing mode. Data will then be passed as soon as it is available.
+
+The listener callback will be passed the chunk of data as a string if a default encoding has been specified for the stream using the readable.setEncoding() method; otherwise the data will be passed as a Buffer.
+
+const readable = getReadableStreamSomehow();
+readable.on('data', (chunk) => {
+  console.log(`Received ${chunk.length} bytes of data.`);
+});
+Event: 'end'#
+
+Added in: v0.9.4
+The 'end' event is emitted when there is no more data to be consumed from the stream.
+
+Note: The 'end' event will not be emitted unless the data is completely consumed. This can be accomplished by switching the stream into flowing mode, or by calling stream.read() repeatedly until all data has been consumed.
+
+const readable = getReadableStreamSomehow();
+readable.on('data', (chunk) => {
+  console.log(`Received ${chunk.length} bytes of data.`);
+});
+readable.on('end', () => {
+  console.log('There will be no more data.');
+});
+Event: 'error'#
+
+Added in: v0.9.4
+<Error>
+The 'error' event may be emitted by a Readable implementation at any time. Typically, this may occur if the underlying stream is unable to generate data due to an underlying internal failure, or when a stream implementation attempts to push an invalid chunk of data.
+
+The listener callback will be passed a single Error object.
+
+Event: 'readable'#
+
+Added in: v0.9.4
+The 'readable' event is emitted when there is data available to be read from the stream. In some cases, attaching a listener for the 'readable' event will cause some amount of data to be read into an internal buffer.
+
+const readable = getReadableStreamSomehow();
+readable.on('readable', () => {
+  // there is some data to read now
+});
+The 'readable' event will also be emitted once the end of the stream data has been reached but before the 'end' event is emitted.
+
+Effectively, the 'readable' event indicates that the stream has new information: either new data is available or the end of the stream has been reached. In the former case, stream.read() will return the available data. In the latter case, stream.read() will return null. For instance, in the following example, foo.txt is an empty file:
+
+const fs = require('fs');
+const rr = fs.createReadStream('foo.txt');
+rr.on('readable', () => {
+  console.log('readable:', rr.read());
+});
+rr.on('end', () => {
+  console.log('end');
+});
+The output of running this script is:
+
+$ node test.js
+readable: null
+end
+Note: In general, the readable.pipe() and 'data' event mechanisms are easier to understand than the 'readable' event. However, handling 'readable' might result in increased throughput.
