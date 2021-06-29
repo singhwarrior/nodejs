@@ -1,0 +1,14 @@
+
+$.(
+    /* Custom Functions */
+    $fullName := function($fName,$lName) {$fName & ' ' & $lname};
+    $contactDetails := function($address, $phone) {
+        {"address":$address, "phone":$phone}
+    };
+
+    /* Result */
+    $.{
+        "name": $fullName(FirstName, Surname), 
+        "contactDetails": $contactDetails(Address, Phone)
+    }
+)
