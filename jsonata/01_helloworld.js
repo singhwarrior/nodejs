@@ -5,7 +5,7 @@ const fs = require("fs");
 /**
  * Read jsonata schema  
  **/ 
-const personQueryExpr = fs.readFileSync("/Users/g0s051y/gitws/nodejs/jsonata/schema/person.jql").toString();
+const personQueryExpr = fs.readFileSync("/Users/g0s051y/gitws/nodejs/jsonata/schema/person.jsonata").toString();
 
 /**
  * Helper function to get JSON Object from data json file. 
