@@ -1,11 +1,5 @@
-var jsonata = require("jsonata");
-
+const jsonata = require("jsonata");
 const fs = require("fs");
-
-/**
- * Read jsonata schema  
- **/ 
-const personQueryExpr = fs.readFileSync("/Users/g0s051y/gitws/nodejs/jsonata/schema/person.jsonata").toString();
 
 /**
  * Helper function to get JSON Object from data json file. 
@@ -37,7 +31,7 @@ readData("/Users/g0s051y/gitws/nodejs/jsonata/data/01_person.json", (err, person
         console.log(err);
         return;
     }
-    console.log(person);
+    //console.log(person);
 
     // Simple attribute extraction
     var expr = jsonata("$.FirstName");  // var expr = jsonata("FirstName"); 
@@ -75,18 +69,6 @@ readData("/Users/g0s051y/gitws/nodejs/jsonata/data/01_person.json", (err, person
     var officePhoneExpr = jsonata("$.Phone[type='office']");     // Query, phones where type=office
     var officePhones = officePhoneExpr.evaluate(person);
     console.log(JSON.stringify(officePhones));
-
-    /**
-     * 
-     */
-
-    console.log(personQueryExpr);
-    var personalDetailsExpr = jsonata(personQueryExpr);
-    var personalDetails = personalDetailsExpr.evaluate(person);
-    console.log(JSON.stringify(personalDetails));
-
-
-    // console.log(result);
 });
 
 // QTS0 -> JSON(CDOM) , QTS1+2 -> SVCO(proto)

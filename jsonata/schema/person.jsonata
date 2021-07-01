@@ -1,14 +1,15 @@
-
-$.(
-    /* Custom Functions */
-    $fullName := function($fName,$lName) {$fName & ' ' & $lname};
+(
+    /* Variables and Custom Functions */
+    $pi := 3.14;
+    $fullName := function($fName,$lName) {$fName & ' ' & $lName};
     $contactDetails := function($address, $phone) {
         {"address":$address, "phone":$phone}
     };
 
     /* Result */
-    $.{
+    {
         "name": $fullName(FirstName, Surname), 
-        "contactDetails": $contactDetails(Address, Phone)
+        "contactDetails": $contactDetails(Address, Phone),
+        "pi": $pi
     }
 )
